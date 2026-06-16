@@ -95,7 +95,7 @@ def contact_keyboard():
     keyboard = InlineKeyboardMarkup(
         inline_keyboard=[
             [
-                InlineKeyboardButton(text="☎️ ПОЗВОНИТЬ", url="tel:+74954152564"),
+                InlineKeyboardButton(text="☎️ ПОЗВОНИТЬ", url="https://t.me/kontanta_kontanta"),
                 InlineKeyboardButton(text="📱 TELEGRAM", url="https://t.me/kontanta_kontanta"),
             ],
             [
