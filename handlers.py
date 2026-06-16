@@ -64,8 +64,7 @@ async def about_handler(callback: CallbackQuery):
     """Раздел 'О нас'"""
     await callback.message.edit_text(
         ABOUT_SECTION,
-        reply_markup=back_menu_keyboard(),
-        parse_mode="Markdown"
+        reply_markup=back_menu_keyboard()
     )
     await callback.answer()
 
@@ -74,8 +73,7 @@ async def vacancies_handler(callback: CallbackQuery):
     """Раздел вакансий - выбор категории"""
     await callback.message.edit_text(
         VACANCIES_INTRO,
-        reply_markup=categories_keyboard(),
-        parse_mode="Markdown"
+        reply_markup=categories_keyboard()
     )
     await callback.answer()
 
@@ -99,11 +97,11 @@ async def category_handler(callback: CallbackQuery):
         await callback.answer("Вакансий не найдено", show_alert=True)
         return
     
-    text = f"🎯 **ВАКАНСИИ: {category}**\n\n✈️ Выберите должность:\n"
+    text = f"🎯 ВАКАНСИИ: {category}\n\n✈️ Выберите должность:\n"
     
     keyboard_obj = vacancy_list_keyboard(vacancies)
     
-    await callback.message.edit_text(text, reply_markup=keyboard_obj, parse_mode="Markdown")
+    await callback.message.edit_text(text, reply_markup=keyboard_obj)
     await callback.answer()
 
 @router.callback_query(F.data.startswith("vacancy_"))
@@ -116,7 +114,7 @@ async def vacancy_details_handler(callback: CallbackQuery):
         await callback.answer("Вакансия не найдена", show_alert=True)
         return
     
-    text = f"""🎖️ **{vacancy['title']}**
+    text = f"""🎖️ {vacancy['title']}
 
 📂 Категория: {vacancy['category']}
 
@@ -129,7 +127,7 @@ async def vacancy_details_handler(callback: CallbackQuery):
 💰 Зарплата: {vacancy['salary'] or 'Обсуждается'}
 """
     
-    await callback.message.edit_text(text, reply_markup=vacancy_details_keyboard(vacancy_id), parse_mode="Markdown")
+    await callback.message.edit_text(text, reply_markup=vacancy_details_keyboard(vacancy_id))
     await callback.answer()
 
 @router.callback_query(F.data.startswith("apply_"))
@@ -141,7 +139,7 @@ async def apply_handler(callback: CallbackQuery, state: FSMContext):
     await state.set_state(ApplicationForm.waiting_for_name)
     await state.update_data(vacancy_id=vacancy_id, vacancy_title=vacancy['title'])
     
-    await callback.message.edit_text("📝 **ЗАПОЛНИТЕ ФОРМУ ЗАЯВКИ**\n\n✏️ Введите ваше полное имя:")
+    await callback.message.edit_text("📝 ЗАПОЛНИТЕ ФОРМУ ЗАЯВКИ\n\n✏️ Введите ваше полное имя:")
     await callback.answer()
 
 @router.message(ApplicationForm.waiting_for_name)
@@ -178,7 +176,7 @@ async def process_experience(message: Message, state: FSMContext):
     
     data = await state.get_data()
     
-    text = f"""✅ **ПРОВЕРЬТЕ ВАШИ ДАННЫЕ:**
+    text = f"""✅ ПРОВЕРЬТЕ ВАШИ ДАННЫЕ:
 
 📝 Имя: {data['full_name']}
 📞 Телефон: {data['phone']}
@@ -188,7 +186,7 @@ async def process_experience(message: Message, state: FSMContext):
 
 ✈️ Всё верно? Отправить заявку?"""
     
-    await message.answer(text, reply_markup=confirmation_keyboard(), parse_mode="Markdown")
+    await message.answer(text, reply_markup=confirmation_keyboard())
 
 @router.callback_query(F.data == "confirm_yes")
 async def confirm_application(callback: CallbackQuery, state: FSMContext):
@@ -205,7 +203,7 @@ async def confirm_application(callback: CallbackQuery, state: FSMContext):
     )
     
     await callback.message.edit_text(
-        f"""✅ **ЗАЯВКА УСПЕШНО ОТПРАВЛЕНА!**
+        f"""✅ ЗАЯВКА УСПЕШНО ОТПРАВЛЕНА!
 
 🎖️ Номер заявки: #{app_id}
 ✈️ Должность: {data['vacancy_title']}
@@ -214,8 +212,7 @@ async def confirm_application(callback: CallbackQuery, state: FSMContext):
 {data['phone']}
 
 Благодарим вас за доверие! 🚀""",
-        reply_markup=back_menu_keyboard(),
-        parse_mode="Markdown"
+        reply_markup=back_menu_keyboard()
     )
     
     await state.clear()
@@ -225,7 +222,7 @@ async def confirm_application(callback: CallbackQuery, state: FSMContext):
 async def cancel_application(callback: CallbackQuery, state: FSMContext):
     """Отменить заявку"""
     await callback.message.edit_text(
-        "❌ **Заявка отменена.**",
+        "❌ Заявка отменена.",
         reply_markup=back_menu_keyboard()
     )
     await state.clear()
@@ -236,8 +233,7 @@ async def training_handler(callback: CallbackQuery):
     """Раздел 'Обучение'"""
     await callback.message.edit_text(
         TRAINING_SECTION,
-        reply_markup=back_menu_keyboard(),
-        parse_mode="Markdown"
+        reply_markup=back_menu_keyboard()
     )
     await callback.answer()
 
@@ -246,8 +242,7 @@ async def benefits_handler(callback: CallbackQuery):
     """Раздел 'Льготы и выплаты'"""
     await callback.message.edit_text(
         BENEFITS_SECTION,
-        reply_markup=back_menu_keyboard(),
-        parse_mode="Markdown"
+        reply_markup=back_menu_keyboard()
     )
     await callback.answer()
 
@@ -255,9 +250,8 @@ async def benefits_handler(callback: CallbackQuery):
 async def faq_handler(callback: CallbackQuery):
     """Раздел 'Вопросы и ответы'"""
     await callback.message.edit_text(
-        "❓ **ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ**\n\n✈️ Выберите интересующий вопрос:",
-        reply_markup=faq_keyboard(),
-        parse_mode="Markdown"
+        "❓ ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ\n\n✈️ Выберите интересующий вопрос:",
+        reply_markup=faq_keyboard()
     )
     await callback.answer()
 
@@ -269,7 +263,7 @@ async def faq_answer_handler(callback: CallbackQuery):
     
     if full_key in FAQ_DATA:
         faq = FAQ_DATA[full_key]
-        text = f"""❓ **{faq['question']}**
+        text = f"""❓ {faq['question']}
 
 {faq['answer']}"""
         
@@ -278,8 +272,7 @@ async def faq_answer_handler(callback: CallbackQuery):
             reply_markup=InlineKeyboardMarkup(inline_keyboard=[
                 [InlineKeyboardButton(text="◀️ ← К ВОПРОСАМ", callback_data="back_to_faq")],
                 [InlineKeyboardButton(text="🏠 → В ГЛАВНОЕ МЕНЮ", callback_data="back_to_menu")]
-            ]),
-            parse_mode="Markdown"
+            ])
         )
     
     await callback.answer()
@@ -289,8 +282,7 @@ async def help_handler(callback: CallbackQuery):
     """Раздел 'Связаться с оператором'"""
     await callback.message.edit_text(
         HELP_SECTION,
-        reply_markup=contact_keyboard(),
-        parse_mode="Markdown"
+        reply_markup=contact_keyboard()
     )
     await callback.answer()
 
@@ -299,8 +291,7 @@ async def contacts_handler(callback: CallbackQuery):
     """Раздел 'Контакты'"""
     await callback.message.edit_text(
         CONTACTS_SECTION,
-        reply_markup=contact_keyboard(),
-        parse_mode="Markdown"
+        reply_markup=contact_keyboard()
     )
     await callback.answer()
 
@@ -326,8 +317,7 @@ async def back_to_vacancies_handler(callback: CallbackQuery):
     """Вернуться к категориям вакансий"""
     await callback.message.edit_text(
         VACANCIES_INTRO,
-        reply_markup=categories_keyboard(),
-        parse_mode="Markdown"
+        reply_markup=categories_keyboard()
     )
     await callback.answer()
 
@@ -335,9 +325,8 @@ async def back_to_vacancies_handler(callback: CallbackQuery):
 async def back_to_faq_handler(callback: CallbackQuery):
     """Вернуться к FAQ"""
     await callback.message.edit_text(
-        "❓ **ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ**\n\n✈️ Выберите интересующий вопрос:",
-        reply_markup=faq_keyboard(),
-        parse_mode="Markdown"
+        "❓ ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ\n\n✈️ Выберите интересующий вопрос:",
+        reply_markup=faq_keyboard()
     )
     await callback.answer()
 
