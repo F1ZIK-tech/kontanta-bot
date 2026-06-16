@@ -264,7 +264,7 @@ async def faq_answer_handler(callback: CallbackQuery):
         faq = FAQ_DATA[question_key.replace('faq_', '')]
         text = f"""❓ {faq['question']}
 
-{faq['answer']}""""
+{faq['answer']}"""
         
         await callback.message.edit_text(
             text,
