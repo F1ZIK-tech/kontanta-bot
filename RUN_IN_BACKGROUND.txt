@@ -1,0 +1,195 @@
+🤖 КАК ЗАПУСТИТЬ БОТА В ФОНЕ (ВСЕГДА В ИНТЕРНЕТЕ)
+
+═══════════════════════════════════════════════════════════════
+
+ВАРИАНТ 1: WINDOWS - Screen/Tmux (рекомендуется)
+──────────────────────────────────────────────────
+
+1. Скачайте и установите Tmux для Windows:
+   https://github.com/msys2/msys2-installer/releases
+
+2. Откройте Tmux и выполните:
+   
+   python -m venv venv
+   venv\Scripts\activate
+   pip install -r requirements.txt
+   python bot.py
+
+3. Нажмите Ctrl+B, потом D (для отключения сессии)
+
+4. Бот продолжит работать в фоне!
+
+═══════════════════════════════════════════════════════════════
+
+ВАРИАНТ 2: WINDOWS - Task Scheduler (системное расписание)
+──────────────────────────────────────────────────────────
+
+1. Создайте batch файл run_bot_background.bat:
+
+   @echo off
+   cd C:\Users\YourUser\Desktop\NKO\tmp\kontanta_bot
+   python -m venv venv
+   call venv\Scripts\activate.bat
+   python bot.py
+
+2. Откройте Task Scheduler (Планировщик задач)
+
+3. Создайте новую задачу:
+   - Имя: "KONTANTA Bot"
+   - Триггер: "At startup"
+   - Действие: "Start a program" → выберите run_bot_background.bat
+   - Опции: "Run whether user is logged in or not"
+
+4. Бот будет автоматически запускаться при включении ПК
+
+═══════════════════════════════════════════════════════════════
+
+ВАРИАНТ 3: WINDOWS PowerShell - Фоновый процесс
+────────────────────────────────────────────────
+
+1. Откройте PowerShell (от администратора)
+
+2. Перейдите в папку:
+   cd C:\Users\YourUser\Desktop\NKO\tmp\kontanta_bot
+
+3. Активируйте окружение:
+   .\venv\Scripts\Activate.ps1
+
+4. Запустите бота в фоне:
+   Start-Process python -ArgumentList "bot.py" -WindowStyle Hidden
+
+5. Бот будет работать скрытно в фоне
+
+═══════════════════════════════════════════════════════════════
+
+ВАРИАНТ 4: DOCKER - Рекомендуется для производства
+──────────────────────────────────────────────────
+
+1. Убедитесь, что Docker установлен
+
+2. Перейдите в папку проекта
+
+3. Запустите:
+   docker-compose up -d
+
+4. Бот будет работать в контейнере (всегда в сети)
+
+5. Проверьте статус:
+   docker-compose ps
+
+6. Смотрите логи:
+   docker-compose logs -f
+
+7. Остановите (если нужно):
+   docker-compose down
+
+═══════════════════════════════════════════════════════════════
+
+ВАРИАНТ 5: LINUX/MAC - Screen (самый простой)
+────────────────────────────────────────────────
+
+1. Установите screen:
+   sudo apt-get install screen (Linux)
+   brew install screen (Mac)
+
+2. Запустите бота в screen сессии:
+   screen -S kontanta_bot
+
+3. Активируйте окружение и запустите:
+   source venv/bin/activate
+   python bot.py
+
+4. Нажмите Ctrl+A, потом D (отключение)
+
+5. Бот работает в фоне!
+
+6. Для подключения:
+   screen -r kontanta_bot
+
+7. Для выхода:
+   screen -d kontanta_bot
+
+═══════════════════════════════════════════════════════════════
+
+ВАРИАНТ 6: LINUX - Systemd сервис (для сервера)
+────────────────────────────────────────────────
+
+1. Создайте файл /etc/systemd/system/kontanta-bot.service:
+
+   [Unit]
+   Description=KONTANTA Telegram Bot
+   After=network.target
+
+   [Service]
+   Type=simple
+   User=www-data
+   WorkingDirectory=/home/user/kontanta_bot
+   ExecStart=/usr/bin/python3 /home/user/kontanta_bot/bot.py
+   Restart=always
+   RestartSec=10
+
+   [Install]
+   WantedBy=multi-user.target
+
+2. Включите сервис:
+   sudo systemctl enable kontanta-bot
+   sudo systemctl start kontanta-bot
+
+3. Проверьте статус:
+   sudo systemctl status kontanta-bot
+
+4. Смотрите логи:
+   sudo journalctl -u kontanta-bot -f
+
+═══════════════════════════════════════════════════════════════
+
+🎯 РЕКОМЕНДУЕМЫЕ ВАРИАНТЫ:
+
+WINDOWS:
+✅ ВАРИАНТ 1 (Tmux) - простой и надёжный
+✅ ВАРИАНТ 3 (PowerShell) - встроен в систему
+✅ ВАРИАНТ 4 (Docker) - лучше всего
+
+LINUX/MAC:
+✅ ВАРИАНТ 5 (Screen) - просто и быстро
+✅ ВАРИАНТ 6 (Systemd) - профессиональное решение
+✅ ВАРИАНТ 4 (Docker) - универсально
+
+СЕРВЕР/ХОСТИНГ:
+✅ ВАРИАНТ 4 (Docker) - лучше всего
+✅ ВАРИАНТ 6 (Systemd) - традиционный способ
+
+═══════════════════════════════════════════════════════════════
+
+✅ ПРОВЕРКА ЧТО БОТ РАБОТАЕТ:
+
+1. Откройте Telegram
+2. Найдите бота @kontanta_recruiter_bot
+3. Отправьте /start
+4. Бот должен ответить!
+
+═══════════════════════════════════════════════════════════════
+
+💡 СОВЕТЫ:
+
+- Бот оптимизирован для стабильной работы
+- Используется Polling режим (не требует прямого доступа)
+- Автоматически переподключается при ошибках
+- SQLite база сохраняется локально
+- Все данные конфиденциальны
+
+═══════════════════════════════════════════════════════════════
+
+❓ ПРОБЛЕМЫ:
+
+Бот не запускается в фоне?
+→ Проверьте .env файл
+→ Убедитесь, что BOT_TOKEN правильный
+→ Смотрите логи для деталей
+
+Бот крашится?
+→ Перезагрузитесь
+→ Проверьте интернет
+→ Обновите зависимости: pip install -r requirements.txt
+
+═══════════════════════════════════════════════════════════════

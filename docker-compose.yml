@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  kontanta_bot:
+    build: .
+    container_name: kontanta_bot
+    environment:
+      - BOT_TOKEN=${BOT_TOKEN}
+      - ADMIN_ID=${ADMIN_ID}
+      - WEBSITE_URL=https://www.kontanta.ru
+      - DATABASE_PATH=/app/data/kontanta.db
+    volumes:
+      - ./data:/app/data
+      - ./.env:/app/.env:ro
+    restart: unless-stopped
+    networks:
+      - kontanta_network
+
+networks:
+  kontanta_network:
+    driver: bridge
