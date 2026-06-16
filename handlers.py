@@ -255,17 +255,16 @@ async def faq_handler(callback: CallbackQuery):
     )
     await callback.answer()
 
-@router.callback_query(F.data.startswith("faq_"))
+@router.callback_query(F.data.startswith("faq_q"))
 async def faq_answer_handler(callback: CallbackQuery):
     """Показать ответ на FAQ"""
-    question_key = callback.data.split("_")[1]
-    full_key = f"q{question_key}"
+    question_key = callback.data  # faq_q1, faq_q2, и т.д.
     
-    if full_key in FAQ_DATA:
-        faq = FAQ_DATA[full_key]
+    if question_key in FAQ_DATA:
+        faq = FAQ_DATA[question_key.replace('faq_', '')]
         text = f"""❓ {faq['question']}
 
-{faq['answer']}"""
+{faq['answer']}""""
         
         await callback.message.edit_text(
             text,

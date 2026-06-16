@@ -22,7 +22,7 @@ def main_menu_keyboard():
             # Ряд 4: Связь + Канал
             [
                 InlineKeyboardButton(text="💬 СВЯЗАТЬСЯ 🤝", callback_data="section_help"),
-                InlineKeyboardButton(text="📢 НАШ КАНАЛ 🇷🇫", url="https://t.me/kontanta_kontanta"),
+                InlineKeyboardButton(text="📢 НАШ КАНАЛ ❓", url="https://t.me/kontanta_kontanta"),
             ],
         ]
     )
