@@ -89,15 +89,12 @@ async def vacancy_details_handler(callback: CallbackQuery):
     
     text = f"""🎖️ {vacancy['title']}
 
-📂 Категория: {vacancy['category']}
-
-📖 Описание:
 {vacancy['description']}
 
 📋 Требования:
-{vacancy['requirements'] or 'Не указаны'}
+{vacancy['requirements']}
 
-💰 Зарплата: {vacancy['salary'] or 'Обсуждается'}
+💰 {vacancy['salary']}
 """
     
     await callback.message.edit_text(text, reply_markup=vacancy_details_keyboard(vacancy_id))
