@@ -258,21 +258,28 @@ async def faq_handler(callback: CallbackQuery):
 @router.callback_query(F.data.startswith("faq_q"))
 async def faq_answer_handler(callback: CallbackQuery):
     """Показать ответ на FAQ"""
-    question_key = callback.data  # faq_q1, faq_q2, и т.д.
+    # callback.data = "faq_q1", "faq_q2" и т.д.
+    # Нужно вытащить "q1", "q2"
+    question_key = callback.data.replace("faq_", "")
     
-    if question_key in FAQ_DATA:
-        faq = FAQ_DATA[question_key.replace('faq_', '')]
-        text = f"""❓ {faq['question']}
+    try:
+        if question_key in FAQ_DATA:
+            faq = FAQ_DATA[question_key]
+            text = f"""❓ {faq['question']}
 
 {faq['answer']}"""
-        
-        await callback.message.edit_text(
-            text,
-            reply_markup=InlineKeyboardMarkup(inline_keyboard=[
-                [InlineKeyboardButton(text="◀️ ← К ВОПРОСАМ", callback_data="back_to_faq")],
-                [InlineKeyboardButton(text="🏠 → В ГЛАВНОЕ МЕНЮ", callback_data="back_to_menu")]
-            ])
-        )
+            
+            await callback.message.edit_text(
+                text,
+                reply_markup=InlineKeyboardMarkup(inline_keyboard=[
+                    [InlineKeyboardButton(text="◀️ ← К ВОПРОСАМ", callback_data="back_to_faq")],
+                    [InlineKeyboardButton(text="🏠 → В ГЛАВНОЕ МЕНЮ", callback_data="back_to_menu")]
+                ])
+            )
+        else:
+            await callback.answer("Ошибка: вопрос не найден", show_alert=True)
+    except Exception as e:
+        await callback.answer(f"Ошибка: {str(e)}", show_alert=True)
     
     await callback.answer()
 

@@ -41,7 +41,7 @@ def categories_keyboard():
     """Клавиатура категорий вакансий"""
     keyboard = InlineKeyboardMarkup(
         inline_keyboard=[
-            [InlineKeyboardButton(text="🚁 ОПЕРАТОРЫ БПЛА 🇷🇫", callback_data="cat_bpla")],
+            [InlineKeyboardButton(text="🚁 ОПЕРАТОРЫ БПЛА ❓", callback_data="cat_bpla")],
             [InlineKeyboardButton(text="🚛 ВОДИТЕЛИ КАМАЗ 💪", callback_data="cat_kamaz")],
             [InlineKeyboardButton(text="💻 СПЕЦИАЛИСТЫ ИТ ⚔️", callback_data="cat_it")],
             [InlineKeyboardButton(text="◀️ НАЗАД В МЕНЮ", callback_data="back_to_menu")]
@@ -95,12 +95,10 @@ def contact_keyboard():
     keyboard = InlineKeyboardMarkup(
         inline_keyboard=[
             [
-                InlineKeyboardButton(text="☎️ ПОЗВОНИТЬ", url="https://t.me/kontanta_kontanta"),
+                InlineKeyboardButton(text="☎️ ПОЗВОНИТЬ", url="tel:+74954152564"),
                 InlineKeyboardButton(text="📱 TELEGRAM", url="https://t.me/kontanta_kontanta"),
             ],
-            [
-                InlineKeyboardButton(text="🌐 НА САЙТ", url="https://www.kontanta.ru"),
-            ],
+            [InlineKeyboardButton(text="🌐 НА САЙТ", url="https://www.kontanta.ru"),
             [
                 InlineKeyboardButton(text="◀️ В ГЛАВНОЕ МЕНЮ", callback_data="back_to_menu")
             ]
