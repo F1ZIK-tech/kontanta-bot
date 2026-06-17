@@ -98,7 +98,9 @@ def contact_keyboard():
                 InlineKeyboardButton(text="☎️ ПОЗВОНИТЬ", url="tel:+74954152564"),
                 InlineKeyboardButton(text="📱 TELEGRAM", url="https://t.me/kontanta_kontanta"),
             ],
-            [InlineKeyboardButton(text="🌐 НА САЙТ", url="https://www.kontanta.ru"),
+            [
+                InlineKeyboardButton(text="🌐 НА САЙТ", url="https://www.kontanta.ru"),
+            ],
             [
                 InlineKeyboardButton(text="◀️ В ГЛАВНОЕ МЕНЮ", callback_data="back_to_menu")
             ]
