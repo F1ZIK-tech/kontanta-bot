@@ -112,8 +112,6 @@ def phone_options_keyboard():
     """Меню способов связи по телефону"""
     keyboard = InlineKeyboardMarkup(
         inline_keyboard=[
-            [InlineKeyboardButton(text="☎️ +7 (495) 415-25-64", url="https://t.me/kontanta_kontanta")],
-            [InlineKeyboardButton(text="☎️ +7 (903) 713-27-13", url="https://t.me/kontanta_kontanta")],
             [InlineKeyboardButton(text="◀️ НАЗАД", callback_data="back_to_help")]
         ]
     )

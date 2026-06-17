@@ -340,7 +340,7 @@ async def back_to_faq_handler(callback: CallbackQuery):
 async def contact_phone_handler(callback: CallbackQuery):
     """Меню способов связи по телефону"""
     await callback.message.edit_text(
-        "☎️ ВЫБЕРИТЕ НОМЕР ДЛЯ СВЯЗИ:\n\n📢 Основной: +7 (495) 415-25-64\n📢 Консультации: +7 (903) 713-27-13",
+        "☎️ СПОСОБЫ СВЯЗИ\n\n📢 +7 (495) 415-25-64",
         reply_markup=phone_options_keyboard()
     )
     await callback.answer()
