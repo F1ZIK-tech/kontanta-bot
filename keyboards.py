@@ -4,22 +4,18 @@ def main_menu_keyboard():
     """Главное меню с кнопками в стиле РФ"""
     keyboard = InlineKeyboardMarkup(
         inline_keyboard=[
-            # Ряд 1: О нас + Вакансии
             [
                 InlineKeyboardButton(text="🏛️ О КОНТАНТА ⚔️", callback_data="section_about"),
                 InlineKeyboardButton(text="📋 ВАКАНСИИ 💪", callback_data="section_vacancies"),
             ],
-            # Ряд 2: Обучение + Льготы
             [
                 InlineKeyboardButton(text="🎖️ ОБУЧЕНИЕ 🎓", callback_data="section_training"),
                 InlineKeyboardButton(text="💰 ЛЬГОТЫ 🏆", callback_data="section_benefits"),
             ],
-            # Ряд 3: FAQ + Контакты
             [
                 InlineKeyboardButton(text="❓ ВОПРОСЫ 📚", callback_data="section_faq"),
                 InlineKeyboardButton(text="☎️ КОНТАКТЫ 📍", callback_data="section_contacts"),
             ],
-            # Ряд 4: Связь + Канал
             [
                 InlineKeyboardButton(text="💬 СВЯЗАТЬСЯ 🤝", callback_data="section_help"),
                 InlineKeyboardButton(text="📢 НАШ КАНАЛ ❓", url="https://t.me/kontanta_kontanta"),
@@ -41,23 +37,23 @@ def categories_keyboard():
     """Клавиатура всех 6 вакансий"""
     keyboard = InlineKeyboardMarkup(
         inline_keyboard=[
-            [InlineKeyboardButton(text="🚁 Операторы БПЛА (FPV)", callback_data="vacancy_1")],
-            [InlineKeyboardButton(text="📡 Специалисты РЭБ, РЭР, ПВО", callback_data="vacancy_2")],
-            [InlineKeyboardButton(text="💻 IT-специалисты", callback_data="vacancy_3")],
-            [InlineKeyboardButton(text="🚛 Водители категории C, E", callback_data="vacancy_4")],
-            [InlineKeyboardButton(text="⚕️ Военные медики", callback_data="vacancy_5")],
-            [InlineKeyboardButton(text="📞 Связисты, сапёры", callback_data="vacancy_6")],
+            [InlineKeyboardButton(text="🚁 Операторы БПЛА (FPV)", callback_data="vac_bpla")],
+            [InlineKeyboardButton(text="📡 Специалисты РЭБ, РЭР, ПВО", callback_data="vac_reb")],
+            [InlineKeyboardButton(text="💻 IT-специалисты", callback_data="vac_it")],
+            [InlineKeyboardButton(text="🚛 Водители категории C, E", callback_data="vac_driver")],
+            [InlineKeyboardButton(text="⚕️ Военные медики", callback_data="vac_medic")],
+            [InlineKeyboardButton(text="📞 Связисты, сапёры", callback_data="vac_engineer")],
             [InlineKeyboardButton(text="◀️ НАЗАД В МЕНЮ", callback_data="back_to_menu")]
         ]
     )
     return keyboard
 
-def vacancy_details_keyboard(vacancy_id: int):
+def vacancy_details_keyboard(vacancy_code):
     """Клавиатура для деталей вакансии"""
     keyboard = InlineKeyboardMarkup(
         inline_keyboard=[
             [
-                InlineKeyboardButton(text="✍️ ПОДАТЬ ЗАЯВКУ", callback_data=f"apply_{vacancy_id}"),
+                InlineKeyboardButton(text="✍️ ПОДАТЬ ЗАЯВКУ", url="https://www.kontanta.ru/contacts"),
             ],
             [
                 InlineKeyboardButton(text="◀️ К ВАКАНСИЯМ", callback_data="back_to_vacancies")
@@ -125,7 +121,6 @@ def vacancy_list_keyboard(vacancies):
     keyboard_list = []
     
     for vacancy in vacancies:
-        # Красивый текст кнопки с эмодзи
         button_text = f"⭐ {vacancy['title']}"
         keyboard_list.append([
             InlineKeyboardButton(
@@ -134,7 +129,6 @@ def vacancy_list_keyboard(vacancies):
             )
         ])
     
-    # Добавляем кнопку возврата
     keyboard_list.append([
         InlineKeyboardButton(text="◀️ НАЗАД", callback_data="back_to_vacancies")
     ])

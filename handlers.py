@@ -77,11 +77,21 @@ async def vacancies_handler(callback: CallbackQuery):
     )
     await callback.answer()
 
-@router.callback_query(F.data.startswith("vacancy_"))
+@router.callback_query(F.data.startswith("vac_"))
 async def vacancy_details_handler(callback: CallbackQuery):
     """Показать детали вакансии"""
-    vacancy_id = int(callback.data.split("_")[1])
-    vacancy = db.get_vacancy_by_id(vacancy_id)
+    vac_code = callback.data.replace("vac_", "")
+    
+    vac_map = {
+        "bpla": db.get_vacancies(category="БПЛА")[0] if db.get_vacancies(category="БПЛА") else None,
+        "reb": db.get_vacancies(category="РЭБ")[0] if db.get_vacancies(category="РЭБ") else None,
+        "it": db.get_vacancies(category="ИТ")[0] if db.get_vacancies(category="ИТ") else None,
+        "driver": db.get_vacancies(category="КАМАЗ")[0] if db.get_vacancies(category="КАМАЗ") else None,
+        "medic": db.get_vacancies(category="Медицина")[0] if db.get_vacancies(category="Медицина") else None,
+        "engineer": db.get_vacancies(category="Инженерия")[0] if db.get_vacancies(category="Инженерия") else None,
+    }
+    
+    vacancy = vac_map.get(vac_code)
     
     if not vacancy:
         await callback.answer("Вакансия не найдена", show_alert=True)
@@ -97,7 +107,7 @@ async def vacancy_details_handler(callback: CallbackQuery):
 💰 {vacancy['salary']}
 """
     
-    await callback.message.edit_text(text, reply_markup=vacancy_details_keyboard(vacancy_id))
+    await callback.message.edit_text(text, reply_markup=vacancy_details_keyboard(vac_code))
     await callback.answer()
 
 @router.callback_query(F.data.startswith("apply_"))
