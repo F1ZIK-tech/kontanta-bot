@@ -8,7 +8,7 @@ import json
 from keyboards import (
     main_menu_keyboard, back_menu_keyboard, categories_keyboard,
     vacancy_details_keyboard, confirmation_keyboard, faq_keyboard,
-    contact_keyboard, vacancy_list_keyboard
+    contact_keyboard, vacancy_list_keyboard, phone_options_keyboard
 )
 from database import Database
 from content import (
@@ -333,6 +333,24 @@ async def back_to_faq_handler(callback: CallbackQuery):
     await callback.message.edit_text(
         "❓ ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ\n\n✈️ Выберите интересующий вопрос:",
         reply_markup=faq_keyboard()
+    )
+    await callback.answer()
+
+@router.callback_query(F.data == "contact_phone")
+async def contact_phone_handler(callback: CallbackQuery):
+    """Меню способов связи по телефону"""
+    await callback.message.edit_text(
+        "☎️ ВЫБЕРИТЕ НОМЕР ДЛЯ СВЯЗИ:\n\n📢 Основной: +7 (495) 415-25-64\n📢 Консультации: +7 (903) 713-27-13",
+        reply_markup=phone_options_keyboard()
+    )
+    await callback.answer()
+
+@router.callback_query(F.data == "back_to_help")
+async def back_to_help_handler(callback: CallbackQuery):
+    """Вернуться к меню связи"""
+    await callback.message.edit_text(
+        HELP_SECTION,
+        reply_markup=contact_keyboard()
     )
     await callback.answer()
 
