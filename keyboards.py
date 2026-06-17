@@ -38,12 +38,15 @@ def back_menu_keyboard(callback_data="back_to_menu"):
     return keyboard
 
 def categories_keyboard():
-    """Клавиатура категорий вакансий"""
+    """Клавиатура всех 6 вакансий"""
     keyboard = InlineKeyboardMarkup(
         inline_keyboard=[
-            [InlineKeyboardButton(text="🚁 ОПЕРАТОРЫ БПЛА ❓", callback_data="cat_bpla")],
-            [InlineKeyboardButton(text="🚛 ВОДИТЕЛИ КАМАЗ 💪", callback_data="cat_kamaz")],
-            [InlineKeyboardButton(text="💻 СПЕЦИАЛИСТЫ ИТ ⚔️", callback_data="cat_it")],
+            [InlineKeyboardButton(text="🚁 Операторы БПЛА (FPV)", callback_data="vacancy_1")],
+            [InlineKeyboardButton(text="📡 Специалисты РЭБ, РЭР, ПВО", callback_data="vacancy_2")],
+            [InlineKeyboardButton(text="💻 IT-специалисты", callback_data="vacancy_3")],
+            [InlineKeyboardButton(text="🚛 Водители категории C, E", callback_data="vacancy_4")],
+            [InlineKeyboardButton(text="⚕️ Военные медики", callback_data="vacancy_5")],
+            [InlineKeyboardButton(text="📞 Связисты, сапёры", callback_data="vacancy_6")],
             [InlineKeyboardButton(text="◀️ НАЗАД В МЕНЮ", callback_data="back_to_menu")]
         ]
     )

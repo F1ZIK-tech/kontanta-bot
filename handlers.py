@@ -70,38 +70,11 @@ async def about_handler(callback: CallbackQuery):
 
 @router.callback_query(F.data == "section_vacancies")
 async def vacancies_handler(callback: CallbackQuery):
-    """Раздел вакансий - выбор категории"""
+    """Раздел вакансий - выбор вакансии"""
     await callback.message.edit_text(
-        VACANCIES_INTRO,
+        "📋 ВАКАНСИИ - ВЫБОР\n\n✈️ Выберите интересующую должность:",
         reply_markup=categories_keyboard()
     )
-    await callback.answer()
-
-@router.callback_query(F.data.startswith("cat_"))
-async def category_handler(callback: CallbackQuery):
-    """Обработчик выбора категории вакансий"""
-    category_map = {
-        "cat_bpla": "БПЛА",
-        "cat_kamaz": "КАМАЗ",
-        "cat_it": "ИТ"
-    }
-    
-    category = category_map.get(callback.data)
-    
-    if callback.data == "cat_all":
-        vacancies = db.get_vacancies()
-    else:
-        vacancies = db.get_vacancies(category=category)
-    
-    if not vacancies:
-        await callback.answer("Вакансий не найдено", show_alert=True)
-        return
-    
-    text = f"🎯 ВАКАНСИИ: {category}\n\n✈️ Выберите должность:\n"
-    
-    keyboard_obj = vacancy_list_keyboard(vacancies)
-    
-    await callback.message.edit_text(text, reply_markup=keyboard_obj)
     await callback.answer()
 
 @router.callback_query(F.data.startswith("vacancy_"))
